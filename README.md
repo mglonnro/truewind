@@ -25,6 +25,8 @@ console.log(
 // { tws: 5.896857444432516, twd: 74.85748402076754 }
 ```
 
+**NOTE**: If true wind speed (tws) is 0, true wind angle (twd) will be ``undefined``.
+
 ## Licensing
 
 MIT
