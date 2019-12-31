@@ -1,0 +1,19 @@
+{
+  "name": "truewind",
+  "version": "0.0.1",
+  "description": "Simple library for apparent to true wind calculation.",
+  "main": "truewind.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mglonnro/truewind.git"
+  },
+  "author": "Mikael Lönnroth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mglonnro/truewind/issues"
+  },
+  "homepage": "https://github.com/mglonnro/truewind#readme"
+}
