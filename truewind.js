@@ -3,7 +3,7 @@ class TrueWind {
    * src: { sog, cog, aws, awd } 
    * cog and awd in degrees (0-360)
    */
-  static GetTrue(src) {
+  static getTrue(src) {
     if (!src.sog) {
       return {
         tws: src.aws,

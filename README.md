@@ -13,7 +13,7 @@ npm install --save @gml/truewind
 const TrueWind = require("@gml/truewind");
 
 console.log(
-  TrueWind.GetTrue({
+  TrueWind.getTrue({
     aws: 10, // Apparent wind speed
     awd: 45, // Apparent wind direction (0-359)
     sog: 5.7, // Speed over ground
