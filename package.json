@@ -1,5 +1,5 @@
 {
-  "name": "truewind",
+  "name": "@gml/truewind",
   "version": "0.0.1",
   "description": "Simple library for apparent to true wind calculation.",
   "main": "truewind.js",
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/mglonnro/truewind.git"
   },
   "author": "Mikael Lönnroth",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/mglonnro/truewind/issues"
   },
