@@ -1,6 +1,6 @@
 {
   "name": "@gml/truewind",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "Simple library for apparent to true wind calculation.",
   "main": "truewind.js",
   "scripts": {
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/mglonnro/truewind/issues"
   },
-  "homepage": "https://github.com/mglonnro/truewind#readme"
+  "homepage": "https://github.com/mglonnro/truewind#readme",
+  "devDependencies": {
+    "eslint": "^7.24.0"
+  }
 }
