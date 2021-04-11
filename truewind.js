@@ -170,6 +170,7 @@ class TrueWind {
 
     return {
       awa: s.awa,
+      aws: s.aws,
       leeway: leeway,
       stw: stw,
       vmg: vmg,
