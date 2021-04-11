@@ -3,8 +3,10 @@
 TrueWind is a small library for converting apparent wind to true wind. 
 
 Thank you for the math goes to these brilliant authors: 
-https://kingtidesailing.blogspot.com/2015/10/correcting-nmea-0183-wind-for-vessel.html
-http://sailboatinstruments.blogspot.com/2011/05/true-wind-vmg-and-current-calculations.html
+<ul>
+  <li>https://kingtidesailing.blogspot.com/2015/10/correcting-nmea-0183-wind-for-vessel.html</li>
+<li>http://sailboatinstruments.blogspot.com/2011/05/true-wind-vmg-and-current-calculations.html</i>
+</ul>
 
 ## Installation
 ```
