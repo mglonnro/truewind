@@ -2,6 +2,10 @@
 
 TrueWind is a small library for converting apparent wind to true wind. 
 
+Thank you for the math goes to these brilliant authors: 
+https://kingtidesailing.blogspot.com/2015/10/correcting-nmea-0183-wind-for-vessel.html
+http://sailboatinstruments.blogspot.com/2011/05/true-wind-vmg-and-current-calculations.html
+
 ## Installation
 ```
 npm install --save @gml/truewind
@@ -25,8 +29,6 @@ console.log(
 // { tws: 5.896857444432516, twd: 74.85748402076754 }
 ```
 
-**NOTE**: If true wind speed (tws) is 0, true wind angle (twd) will be ``undefined``.
-
 ## Adjusting for pitch and roll
 
 If you include values for ``pitch`` and ``roll``, the function adjusts the return value for anemometer attitude. The math is grabbed from [this post](https://kingtidesailing.blogspot.com/2015/10/correcting-nmea-0183-wind-for-vessel.html).
@@ -46,7 +48,7 @@ console.log(
 );
 
 // Expected output
-// { tws: 5.97276396046677, twd: 76.12382083253168 }
+// { tws: 6.058669353713275, twd: 75.65107493575283 }
 ```
 
 ## Licensing
