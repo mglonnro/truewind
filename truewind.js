@@ -149,7 +149,7 @@ class TrueWind {
     if (wdir > 360.0) wdir -= 360.0;
     else if (wdir < 0.0) wdir += 360.0;
 
-    let cog_mag = s.cog + s.variation;
+    let cog_mag = s.cog - s.variation;
     let alpha = (90.0 - (s.heading + leeway)) * DEG_TO_RAD;
     let gamma = (90.0 - cog_mag) * DEG_TO_RAD;
     let curr_x = s.sog * Math.cos(gamma) - stw * Math.cos(alpha);
