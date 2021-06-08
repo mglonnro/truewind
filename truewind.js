@@ -217,6 +217,11 @@ class TrueWind {
     let wy2 = wy1 / Math.cos(pitch * DEG_TO_RAD);
 
     let ws1 = Math.sqrt(Math.pow(wx2, 2) + Math.pow(wy2, 2));
+
+    if (wx2 == 0.0 || wy2 == 0.0) {
+	ws1 = ws0;
+    }
+
     let rwa1 = Math.atan2(wx2, wy2) * RAD_TO_DEG;
 
     if (rwa1 < 0) {
