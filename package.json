@@ -1,10 +1,45 @@
 {
   "name": "@gml/truewind",
-  "version": "1.0.0",
-  "description": "Simple library for apparent to true wind calculation.",
+  "version": "2.0.0",
+  "description": "Modern ES6+ library for apparent to true wind calculation in sailing applications.",
+  "type": "module",
   "main": "truewind.js",
+  "module": "truewind.js",
+  "exports": {
+    ".": {
+      "import": "./truewind.js",
+      "require": "./dist/truewind.cjs"
+    }
+  },
+  "files": [
+    "truewind.js",
+    "truewind.d.ts",
+    "dist/"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint *.js",
+    "lint:fix": "eslint *.js --fix",
+    "format": "prettier --write *.js *.md",
+    "format:check": "prettier --check *.js *.md",
+    "build": "rollup -c",
+    "prepublishOnly": "npm run lint && npm run test && npm run build"
+  },
+  "keywords": [
+    "sailing",
+    "wind",
+    "navigation",
+    "marine",
+    "nautical",
+    "apparent wind",
+    "true wind",
+    "vmg",
+    "leeway"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
   },
   "repository": {
     "type": "git",
@@ -17,6 +52,11 @@
   },
   "homepage": "https://github.com/mglonnro/truewind#readme",
   "devDependencies": {
-    "eslint": "^7.24.0"
+    "@rollup/plugin-terser": "^0.4.4",
+    "@vitest/coverage-v8": "^2.0.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.3.0",
+    "rollup": "^4.0.0",
+    "vitest": "^2.0.0"
   }
 }
