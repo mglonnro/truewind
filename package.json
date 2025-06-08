@@ -1,6 +1,6 @@
 {
   "name": "@gml/truewind",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Modern ES6+ library for apparent to true wind calculation in sailing applications.",
   "type": "module",
   "main": "truewind.js",
