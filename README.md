@@ -29,17 +29,16 @@ npm install @gml/truewind
 import TrueWind from '@gml/truewind';
 
 const result = TrueWind.getTrue({
-  aws: 10, // Apparent wind speed (kt or m/s)
+  aws: 5.1, // Apparent wind speed (m/s)
   awa: 34, // Apparent wind angle (deg, -180 to 180)
-  bspd: 5.9, // Boat speed as measured (kt or m/s)
-  sog: 5.7, // Speed over ground (kt or m/s)
+  bspd: 3.0, // Boat speed as measured (m/s)
+  sog: 2.9, // Speed over ground (m/s)
   cog: 14, // Course over ground (deg true)
   heading: 8, // Boat heading (deg magnetic, including deviation)
   variation: 5, // Magnetic variation (deg)
   roll: -5, // Boat heeling (deg, - to port, + to starboard) [optional]
   pitch: -2, // Boat pitch (deg, - bow up, + bow down) [optional]
-  K: 10, // Leeway coefficient [optional]
-  speedunit: 'kt' // Unit of bspd, needed for leeway [optional]
+  K: 10 // Leeway coefficient [optional]
 });
 
 console.log(result);
@@ -48,7 +47,11 @@ console.log(result);
 ### CommonJS (Legacy)
 
 ```javascript
-const TrueWind = require('@gml/truewind/dist/truewind.cjs');
+// Default import (recommended)
+const TrueWind = require('@gml/truewind').default;
+
+// Or named import
+const { TrueWind } = require('@gml/truewind');
 
 // Same usage as above
 ```
@@ -59,9 +62,9 @@ const TrueWind = require('@gml/truewind/dist/truewind.cjs');
 import TrueWind, { TrueWindInput, TrueWindResult } from '@gml/truewind';
 
 const input: TrueWindInput = {
-  aws: 10,
+  aws: 5.1, // m/s
   awa: 34,
-  bspd: 5.9,
+  bspd: 3.0, // m/s
   heading: 8
   // ... other parameters
 };
@@ -76,14 +79,14 @@ The `getTrue` method returns an object with the following properties:
 ```javascript
 {
   awa: 34.09,      // Apparent wind angle (corrected, degrees)
-  aws: 10.02,      // Apparent wind speed (corrected)
+  aws: 5.15,       // Apparent wind speed (corrected, m/s)
   leeway: -1.44,   // Leeway angle (degrees)
-  stw: 5.90,       // Speed through water
-  vmg: 2.13,       // Velocity made good
-  tws: 6.24,       // True wind speed
+  stw: 3.03,       // Speed through water (m/s)
+  vmg: 1.09,       // Velocity made good (m/s)
+  tws: 3.21,       // True wind speed (m/s)
   twa: 67.42,      // True wind angle (degrees)
   twd: 80.42,      // True wind direction (degrees)
-  soc: 1.27,       // Speed over current
+  soc: 0.65,       // Speed over current (m/s)
   doc: 116.85      // Direction over current (degrees)
 }
 ```
@@ -104,20 +107,19 @@ Calculate true wind from apparent wind and boat parameters.
 
 **Required Parameters:**
 
-- `aws`: Apparent wind speed
+- `aws`: Apparent wind speed (m/s)
 - `awa`: Apparent wind angle (degrees, -180 to 180)
-- `bspd`: Boat speed over water
+- `bspd`: Boat speed over water (m/s)
 - `heading`: Boat heading (degrees magnetic)
 
 **Optional Parameters:**
 
 - `variation`: Magnetic variation (default: 0)
-- `sog`: Speed over ground (falls back to bspd if not provided)
+- `sog`: Speed over ground (m/s, falls back to bspd if not provided)
 - `cog`: Course over ground (falls back to heading if not provided)
 - `roll`: Roll angle for attitude correction
 - `pitch`: Pitch angle for attitude correction
-- `K`: Leeway coefficient (requires speedunit)
-- `speedunit`: Speed unit ("kt" or "m/s", required when using K)
+- `K`: Leeway coefficient
 
 ### `TrueWind.getAttitudeCorrections(src)`
 

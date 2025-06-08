@@ -1,18 +1,22 @@
-import { terser } from '@rollup/plugin-terser';
+import terser from '@rollup/plugin-terser';
 
-export default {
-  input: 'truewind.js',
-  output: [
-    {
+export default [
+  {
+    input: 'truewind.js',
+    output: {
       file: 'dist/truewind.cjs',
       format: 'cjs',
-      exports: 'default'
-    },
-    {
+      exports: 'named'
+    }
+  },
+  {
+    input: 'truewind.js',
+    output: {
       file: 'dist/truewind.min.js',
       format: 'umd',
       name: 'TrueWind',
-      plugins: [terser()]
-    }
-  ]
-};
+      exports: 'named'
+    },
+    plugins: [terser()]
+  }
+];

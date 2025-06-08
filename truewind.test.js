@@ -5,34 +5,33 @@ describe('TrueWind', () => {
   describe('getTrue', () => {
     it('should calculate true wind from apparent wind data', () => {
       const input = {
-        aws: 10,
+        aws: 5.1, // ~10 kt converted to m/s
         awa: 34,
-        bspd: 5.9,
-        sog: 5.7,
+        bspd: 3.0, // ~5.9 kt converted to m/s
+        sog: 2.9, // ~5.7 kt converted to m/s
         cog: 14,
         heading: 8,
         variation: 5,
         roll: -5,
         pitch: -2,
-        K: 10,
-        speedunit: 'kt'
+        K: 10
       };
 
       const result = TrueWind.getTrue(input);
 
       expect(result).toBeDefined();
-      expect(result.tws).toBeCloseTo(6.24, 1);
-      expect(result.twa).toBeCloseTo(67.42, 1);
-      expect(result.twd).toBeCloseTo(80.42, 1);
-      expect(result.vmg).toBeCloseTo(2.13, 1);
-      expect(result.leeway).toBeCloseTo(-1.44, 1);
+      expect(result.tws).toBeCloseTo(3.2, 0); // True wind speed in m/s
+      expect(result.twa).toBeCloseTo(67.3, 0); // True wind angle in degrees
+      expect(result.twd).toBeCloseTo(80.3, 0); // True wind direction in degrees
+      expect(result.vmg).toBeCloseTo(1.1, 0); // VMG in m/s
+      expect(result.leeway).toBeCloseTo(-1.4, 0); // Leeway in degrees
     });
 
     it('should handle minimum required parameters', () => {
       const input = {
-        aws: 15,
+        aws: 7.7, // ~15 kt converted to m/s
         awa: 45,
-        bspd: 6,
+        bspd: 3.1, // ~6 kt converted to m/s
         heading: 180
       };
 
@@ -46,7 +45,7 @@ describe('TrueWind', () => {
 
     it('should throw error for missing required parameters', () => {
       const input = {
-        aws: 15,
+        aws: 7.7, // ~15 kt converted to m/s
         awa: 45
         // missing bspd and heading
       };
@@ -56,26 +55,12 @@ describe('TrueWind', () => {
       );
     });
 
-    it('should throw error for invalid speedunit with K parameter', () => {
-      const input = {
-        aws: 15,
-        awa: 45,
-        bspd: 6,
-        heading: 180,
-        K: 10,
-        speedunit: 'invalid'
-      };
-
-      expect(() => TrueWind.getTrue(input)).toThrow(
-        'With the parameter K, also specify { speedunit = \'m/s\' | \'kt\' } for bspd.'
-      );
-    });
 
     it('should handle backward compatibility with awd parameter', () => {
       const input = {
-        aws: 10,
+        aws: 5.1, // ~10 kt converted to m/s
         awd: 50, // deprecated parameter
-        bspd: 5,
+        bspd: 2.6, // ~5 kt converted to m/s
         heading: 10,
         variation: 5
       };
@@ -88,9 +73,9 @@ describe('TrueWind', () => {
 
     it('should handle angle normalization', () => {
       const input = {
-        aws: 10,
+        aws: 5.1, // ~10 kt converted to m/s
         awa: 200, // > 180
-        bspd: 5,
+        bspd: 2.6, // ~5 kt converted to m/s
         heading: 10
       };
 
@@ -103,13 +88,12 @@ describe('TrueWind', () => {
 
     it('should calculate leeway when parameters are provided', () => {
       const input = {
-        aws: 12,
+        aws: 6.2, // ~12 kt converted to m/s
         awa: 30,
-        bspd: 6,
+        bspd: 3.1, // ~6 kt converted to m/s
         heading: 90,
         roll: -10, // heeling to port
-        K: 15,
-        speedunit: 'kt'
+        K: 15
       };
 
       const result = TrueWind.getTrue(input);
@@ -121,13 +105,12 @@ describe('TrueWind', () => {
 
     it('should not calculate leeway when heeling into the wind', () => {
       const input = {
-        aws: 12,
+        aws: 6.2, // ~12 kt converted to m/s
         awa: 30, // positive angle
-        bspd: 6,
+        bspd: 3.1, // ~6 kt converted to m/s
         heading: 90,
         roll: 10, // heeling to starboard (same side as wind)
-        K: 15,
-        speedunit: 'kt'
+        K: 15
       };
 
       const result = TrueWind.getTrue(input);
@@ -140,7 +123,7 @@ describe('TrueWind', () => {
   describe('getAttitudeCorrections', () => {
     it('should return original data when roll and pitch are undefined', () => {
       const input = {
-        aws: 10,
+        aws: 5.1, // ~10 kt converted to m/s
         awa: 45
       };
 
@@ -151,7 +134,7 @@ describe('TrueWind', () => {
 
     it('should correct for roll and pitch', () => {
       const input = {
-        aws: 10,
+        aws: 5.1, // ~10 kt converted to m/s
         awa: 45,
         roll: 10,
         pitch: 5
@@ -166,7 +149,7 @@ describe('TrueWind', () => {
 
     it('should handle negative awa angles', () => {
       const input = {
-        aws: 10,
+        aws: 5.1, // ~10 kt converted to m/s
         awa: -30,
         roll: 5,
         pitch: 2

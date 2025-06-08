@@ -13,21 +13,20 @@ const MS_TO_KT = 1.94384;
 /**
  * TrueWind calculation class for converting apparent wind to true wind
  */
-export class TrueWind {
+class TrueWind {
   /**
    * Calculate true wind from apparent wind and boat parameters
    * @param {Object} input - Input parameters
-   * @param {number} input.bspd - Boat speed over water as measured
-   * @param {number} input.sog - Speed over ground
+   * @param {number} input.bspd - Boat speed over water as measured (m/s)
+   * @param {number} input.sog - Speed over ground (m/s)
    * @param {number} input.cog - Course over ground (degrees)
-   * @param {number} input.aws - Apparent wind speed
+   * @param {number} input.aws - Apparent wind speed (m/s)
    * @param {number} input.awa - Apparent wind angle, including any offset (degrees)
    * @param {number} input.heading - Heading (degrees magnetic)
    * @param {number} [input.variation=0] - Variation (degrees)
    * @param {number} [input.roll] - Roll angle of sensor (degrees)
    * @param {number} [input.pitch] - Pitch angle of sensor (degrees)
    * @param {number} [input.K] - Leeway coefficient
-   * @param {string} [input.speedunit] - Speed unit for bspd ("m/s" or "kt")
    * @returns {Object} Calculated wind data
    */
   static getTrue(input) {
@@ -74,9 +73,6 @@ export class TrueWind {
       throw new Error('Please supply at least the parameters { awa, aws, heading, bspd }');
     }
 
-    if (s.K !== undefined && s.speedunit !== 'kt' && s.speedunit !== 'm/s') {
-      throw new Error('With the parameter K, also specify { speedunit = \'m/s\' | \'kt\' } for bspd.');
-    }
 
     // Adjust into correct half of the circle.
     if (s.awa > 180) {
@@ -95,11 +91,9 @@ export class TrueWind {
       // don't adjust if we are not moving, not heeling, or heeling into the wind
       leeway = 0;
     } else {
-      leeway =
-        (s.K * s.roll) /
-        (s.bspd *
-          (s.speedunit === 'kt' ? 1 : MS_TO_KT) *
-          (s.bspd * (s.speedunit === 'kt' ? 1 : MS_TO_KT)));
+      // Calculate leeway in degrees using m/s speeds
+      const bspd_kt = s.bspd * MS_TO_KT; // Convert m/s to knots for leeway calculation
+      leeway = (s.K * s.roll) / (bspd_kt * bspd_kt);
 
       if (leeway > 45) {
         leeway = 45;
@@ -252,4 +246,5 @@ export class TrueWind {
   }
 }
 
+export { TrueWind };
 export default TrueWind;
