@@ -13,6 +13,7 @@
   },
   "files": [
     "truewind.js",
+    "heightcorrection.js",
     "truewind.d.ts",
     "dist/"
   ],
