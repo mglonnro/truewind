@@ -11,6 +11,7 @@ A modern ES6+ library for converting apparent wind to true wind in sailing appli
 - ⚡ **Modern ES6+ Syntax**: Uses modern JavaScript features and ES modules
 - 📐 **Attitude Corrections**: Compensates for boat pitch and roll
 - 🧭 **Leeway Calculations**: Accounts for boat drift due to wind pressure
+- 📏 **Height Corrections**: Adjusts wind speed from sensor height to standard 10m reference
 - 🔧 **TypeScript Support**: Full TypeScript definitions included
 - 🧪 **Well Tested**: Comprehensive test suite with Vitest
 - 📦 **Tree Shakeable**: ES modules for optimal bundling
@@ -38,7 +39,9 @@ const result = TrueWind.getTrue({
   variation: 5, // Magnetic variation (deg)
   roll: -5, // Boat heeling (deg, - to port, + to starboard) [optional]
   pitch: -2, // Boat pitch (deg, - bow up, + bow down) [optional]
-  K: 10 // Leeway coefficient [optional]
+  K: 10, // Leeway coefficient [optional]
+  sensorHeight: 26, // Height of wind sensor (meters) [optional]
+  heightCorrectionMethod: 'log' // Height correction method ('log' or 'power') [optional]
 });
 
 console.log(result);
@@ -83,7 +86,7 @@ The `getTrue` method returns an object with the following properties:
   leeway: -1.44,   // Leeway angle (degrees)
   stw: 3.03,       // Speed through water (m/s)
   vmg: 1.09,       // Velocity made good (m/s)
-  tws: 3.21,       // True wind speed (m/s)
+  tws: 3.21,       // True wind speed (m/s, height-corrected to 10m if sensorHeight provided)
   twa: 67.42,      // True wind angle (degrees)
   twd: 80.42,      // True wind direction (degrees)
   soc: 0.65,       // Speed over current (m/s)
@@ -120,6 +123,8 @@ Calculate true wind from apparent wind and boat parameters.
 - `roll`: Roll angle for attitude correction
 - `pitch`: Pitch angle for attitude correction
 - `K`: Leeway coefficient
+- `sensorHeight`: Height of wind sensor in meters (for height correction)
+- `heightCorrectionMethod`: Height correction method - either 'log' (log-law with z0=0.005m) or 'power' (power-law with α=0.11)
 
 ### `TrueWind.getAttitudeCorrections(src)`
 

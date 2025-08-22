@@ -6,6 +6,8 @@
  * @see https://kingtidesailing.blogspot.com/2015/10/correcting-nmea-0183-wind-for-vessel.html
  */
 
+import { windToHeight } from './heightcorrection.js';
+
 const DEG_TO_RAD = Math.PI / 180.0;
 const RAD_TO_DEG = 180.0 / Math.PI;
 const MS_TO_KT = 1.94384;
@@ -27,6 +29,8 @@ class TrueWind {
    * @param {number} [input.roll] - Roll angle of sensor (degrees)
    * @param {number} [input.pitch] - Pitch angle of sensor (degrees)
    * @param {number} [input.K] - Leeway coefficient
+   * @param {number} [input.sensorHeight] - Height of wind sensor in meters
+   * @param {"log"|"power"} [input.heightCorrectionMethod] - Height correction method ("log" or "power")
    * @returns {Object} Calculated wind data
    */
   static getTrue(input) {
@@ -177,13 +181,32 @@ class TrueWind {
       }
     }
 
+    let finalTws = tws;
+
+    // Apply height correction if sensor height and method are provided
+    if (s.sensorHeight && s.heightCorrectionMethod) {
+      const opts = {
+        toHeight: 10,
+        method: s.heightCorrectionMethod
+      };
+
+      // Use default roughness values from heightcorrection.js
+      if (s.heightCorrectionMethod === 'log') {
+        opts.z0 = 0.005; // Default roughness for log-law
+      } else if (s.heightCorrectionMethod === 'power') {
+        opts.alpha = 0.11; // Default exponent for power-law
+      }
+
+      finalTws = windToHeight(tws, s.sensorHeight, opts);
+    }
+
     return {
       awa: s.awa,
       aws: s.aws,
       leeway: leeway,
       stw: stw,
       vmg: vmg,
-      tws: tws,
+      tws: finalTws,
       twa: twa,
       twd: wdir + s.variation,
       soc: soc,

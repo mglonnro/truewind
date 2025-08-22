@@ -22,6 +22,10 @@ export interface TrueWindInput {
   pitch?: number;
   /** Leeway coefficient */
   K?: number;
+  /** Height of wind sensor in meters */
+  sensorHeight?: number;
+  /** Height correction method ("log" or "power") */
+  heightCorrectionMethod?: "log" | "power";
   /** @deprecated Use awa instead */
   awd?: number;
 }

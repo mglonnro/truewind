@@ -118,6 +118,94 @@ describe('TrueWind', () => {
       expect(result).toBeDefined();
       expect(result.leeway).toBe(0);
     });
+
+    it('should apply height correction with log method when parameters provided', () => {
+      const input = {
+        aws: 10.0, // 10 m/s apparent wind
+        awa: 45,
+        bspd: 5.0, // 5 m/s boat speed
+        heading: 90,
+        sensorHeight: 26, // sensor at 26m height
+        heightCorrectionMethod: 'log'
+      };
+
+      const result = TrueWind.getTrue(input);
+      const resultWithoutCorrection = TrueWind.getTrue({
+        aws: 10.0,
+        awa: 45,
+        bspd: 5.0,
+        heading: 90
+      });
+
+      expect(result).toBeDefined();
+      expect(result.tws).toBeLessThan(resultWithoutCorrection.tws); // Wind at 10m should be less than at 26m
+      expect(result.tws).toBeGreaterThan(0);
+    });
+
+    it('should apply height correction with power method when parameters provided', () => {
+      const input = {
+        aws: 10.0, // 10 m/s apparent wind
+        awa: 45,
+        bspd: 5.0, // 5 m/s boat speed
+        heading: 90,
+        sensorHeight: 26, // sensor at 26m height
+        heightCorrectionMethod: 'power'
+      };
+
+      const result = TrueWind.getTrue(input);
+      const resultWithoutCorrection = TrueWind.getTrue({
+        aws: 10.0,
+        awa: 45,
+        bspd: 5.0,
+        heading: 90
+      });
+
+      expect(result).toBeDefined();
+      expect(result.tws).toBeLessThan(resultWithoutCorrection.tws); // Wind at 10m should be less than at 26m
+      expect(result.tws).toBeGreaterThan(0);
+    });
+
+    it('should not apply height correction when only sensorHeight is provided', () => {
+      const input = {
+        aws: 10.0,
+        awa: 45,
+        bspd: 5.0,
+        heading: 90,
+        sensorHeight: 26 // No method specified
+      };
+
+      const result = TrueWind.getTrue(input);
+      const resultWithoutCorrection = TrueWind.getTrue({
+        aws: 10.0,
+        awa: 45,
+        bspd: 5.0,
+        heading: 90
+      });
+
+      expect(result).toBeDefined();
+      expect(result.tws).toBe(resultWithoutCorrection.tws); // Should be same without method
+    });
+
+    it('should not apply height correction when only method is provided', () => {
+      const input = {
+        aws: 10.0,
+        awa: 45,
+        bspd: 5.0,
+        heading: 90,
+        heightCorrectionMethod: 'log' // No sensor height specified
+      };
+
+      const result = TrueWind.getTrue(input);
+      const resultWithoutCorrection = TrueWind.getTrue({
+        aws: 10.0,
+        awa: 45,
+        bspd: 5.0,
+        heading: 90
+      });
+
+      expect(result).toBeDefined();
+      expect(result.tws).toBe(resultWithoutCorrection.tws); // Should be same without height
+    });
   });
 
   describe('getAttitudeCorrections', () => {
